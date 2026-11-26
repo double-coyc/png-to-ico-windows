@@ -1,0 +1,16 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+
+# Generated output and local samples
+new/
+*.ico
+preview.png
+
+# Editors
+.vscode/
+.idea/
