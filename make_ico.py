@@ -300,20 +300,29 @@ def build_parser() -> argparse.ArgumentParser:
 def main(argv: list[str] | None = None) -> int:
     args = build_parser().parse_args(argv)
 
-    input_dir = (args.input or get_downloads_dir()).expanduser()
-    if not input_dir.is_dir():
-        print(f"Input folder not found: {input_dir}", file=sys.stderr)
+    input_path = (args.input or get_downloads_dir()).expanduser()
+    if not input_path.exists():
+        print(f"Input path not found: {input_path}", file=sys.stderr)
         return 1
 
-    output_dir = (args.output or (input_dir / "new")).expanduser()
+    if input_path.is_file():
+        if input_path.suffix.lower() not in INPUT_EXTS:
+            print(f"Unsupported file format: {input_path.name}", file=sys.stderr)
+            return 1
+        base_dir = input_path.parent
+        files = [input_path]
+    else:
+        base_dir = input_path
+        files = iter_sources(input_path)
+
+    output_dir = (args.output or (base_dir / "new")).expanduser()
     output_dir.mkdir(parents=True, exist_ok=True)
 
-    files = iter_sources(input_dir)
     if not files:
-        print(f"No PNG/JPG/JPEG files in {input_dir}")
+        print(f"No supported image files in {base_dir}")
         return 0
 
-    print(f"Input:  {input_dir}")
+    print(f"Input: {input_path}")
     print(f"Output: {output_dir}")
     print()
 
