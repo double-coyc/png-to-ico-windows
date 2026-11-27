@@ -36,7 +36,7 @@ __version__ = "1.0.0"
 DEFAULT_THRESHOLD = 235
 TARGET_SIZE = (256, 256)
 ICO_SIZES = [(256, 256)]
-INPUT_EXTS = (".png", ".jpg", ".jpeg")
+INPUT_EXTS = (".png", ".jpg", ".jpeg", ".jfif", ".webp", ".bmp", ".gif", ".tif", ".tiff")
 
 
 def get_downloads_dir() -> Path:
