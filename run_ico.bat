@@ -1,10 +1,16 @@
 @echo off
 chcp 65001 >nul
 
-set "PYTHON_EXE=G:\Klishin\WinPython3.14dot\WPy64-314100\python\python.exe"
-set "SCRIPT_DIR=C:\Users\student.IT-SA8\Downloads\png-to-ico-windows-main\png-to-ico-windows-main"
+set "PYTHON_EXE=python"
+set "SCRIPT_DIR=%~dp0"
 
 cd /d "%SCRIPT_DIR%"
+
+"%PYTHON_EXE%" -c "import PIL" 2>nul
+if errorlevel 1 (
+    echo Installing Pillow...
+    "%PYTHON_EXE%" -m pip install Pillow
+)
 
 if "%~1"=="" (
     "%PYTHON_EXE%" make_ico.py
